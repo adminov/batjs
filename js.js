@@ -59,7 +59,7 @@ console.log('Цель будет достигнута:', + Math.ceil(getTargetMo
 
 // budgetDay учитывая бюджет на месяц,
 const budgetDay = accumulatedMouth / 30;
-console.log('Бюджет на день:', budgetDay);
+console.log('Бюджет на день:', + Math.floor(budgetDay));
 
 const getStatusIncome = function () {
     if (budgetDay >= 1200){
