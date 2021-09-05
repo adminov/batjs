@@ -8,6 +8,32 @@ let isNumber = function(n){
 let isString = function(string){
     return !isNumber(string)
 };
+//--------------------------------------------
+let starts = document.getElementById('start'),
+    // Добавить категорию (плюсы)
+    incomeAdd = document.getElementsByTagName('button')[0],
+    expensesAdd = document.getElementsByTagName('button')[1],
+    //Чекбокс
+    checkbox = document.querySelector('#deposit-check'),
+    //Поля для ввода возможных доходов
+    additionalIncomeItems = document.querySelectorAll('additional_income-item');
+    //Поля в правой части программы
+let budgetDayValue = document.getElementsByClassName("budget_day-value");
+let expensesMonthValue = document.getElementsByClassName("expenses_month-value");
+let additionalIncomeValue = document.getElementsByClassName("additional_income-value");
+let additionalExpensesValue = document.getElementsByClassName("additional_expenses-value");
+let incomePeriodValue = document.getElementsByClassName("income_period-value");
+let targetMonthValue = document.getElementsByClassName("target_month-value");
+//оставшиеся поля
+let salaryAmount = document.querySelector(".salary-amount");
+let incomeTitle = document.querySelector(".income-title");
+let incomeAmount = document.querySelector(".income-amount");
+let expensesTitle = document.querySelector(".expenses-title");
+let expensesAmount = document.querySelector(".expenses-amount");
+let budgetMonthValue = document.querySelector(".budget_month-value");
+let additionalExpensesItem = document.querySelector(".additional_expenses-item");
+let targetAmount = document.querySelector(".target-amount");
+let periodSelect = document.querySelector(".period-select");
 
 //--------------------------------------------
 let money, //Доход за месяц
