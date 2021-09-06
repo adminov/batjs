@@ -24,7 +24,6 @@ const bookLi = books[0].querySelectorAll('ul, li');
 bookLi[4].after(bookLi[7]);
 bookLi[5].before(bookLi[9]);
 
-
 const bookFive = books[5].querySelector('ul').querySelectorAll('li');
 
 bookFive[2].before(bookFive[9]);
