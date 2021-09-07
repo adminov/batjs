@@ -91,6 +91,7 @@ let appData = {
         });
     },
 
+    //Добавление блоков для Дополнительный доход
     addIncomeBlock: function() {
         let cloneIncomeItem = incomeItems[0].cloneNode(true);
         incomeItems[0].parentNode.insertBefore(cloneIncomeItem, incomePlus);
@@ -162,30 +163,10 @@ let appData = {
     },
 
     getStatusIncome: function () {
-        if (appData.budgetDay >= 1200){
-            return ('У вас высокий уровень дохода');
-        } else if (appData.budgetDay >= 600){
-            return ('У вас средний уровень дохода');
-        } else if (appData.budgetDay >= 0){
-            return ('К сожалению у вас уровень дохода ниже среднего');
-        } else {
-            return ('Что то пошло не так');
-        }
     },
 
     getInfoDeposit: function() {
-        let tmpPercentDeposit = 0,
-            tmpMoneyDeposit = 0;
-        if (appData.deposit){
-            do {
-                tmpPercentDeposit = prompt('Какой годовой прцент?', '10');
-            } while (!isNumber(tmpPercentDeposit));
-            do {
-                tmpMoneyDeposit = prompt('Какая сумма заложена?', '10000');
-            } while (!isNumber(tmpMoneyDeposit));
-            appData.percentDeposit = +tmpPercentDeposit;
-            appData.moneyDeposit = +tmpMoneyDeposit;
-        }
+        appData.moneyDeposit = 0;
     },
 
     calcPeriod: function () {
@@ -205,8 +186,34 @@ starts.addEventListener('click', appData.start);
 expensesPlus.addEventListener('click', appData.addExpensesBlock);
 incomePlus.addEventListener('click', appData.addIncomeBlock);
 periodSelect.addEventListener('change', appData.rangeChangeValue);
-// if (appData.getTargetMouth() > 0){
-//     console.log('Цель будет достигнута за: ' + Math.ceil(appData.getTargetMouth()) + ' месяцев');
-// } else {
-//     console.log('Цель не будет достигнута');
-// }
+
+const addEventChangeNumber = event => {
+    let tmpValue = event.target.value;
+    const changeInputNumber = event => {
+        if (!/^[\d]+$/.test(event.target.value)) {
+            alert('Доупускается ввод только цифр!');
+            event.target.value = tmpValue;
+            event.target.removeEventListener('change', changeInputNumber);
+        }
+        tmpValue = event.target.value;
+    };
+    event.target.addEventListener('change', changeInputNumber);
+};
+const addEventChangeText = event => {
+    let tmpValue = event.target.value;
+    const changeInputText = event => {
+        if (!/^[,. а-яА-ЯёЁ]+$/.test(event.target.value)) {
+            alert('Доупускается ввод только русских букв, пробела, точки и запятой!');
+            event.target.value = tmpValue;
+            event.target.removeEventListener('change', changeInputText);
+        }
+        tmpValue = event.target.value;
+    };
+    event.target.addEventListener('change', changeInputText);
+};
+document.querySelectorAll('[placeholder="Наименование"]').forEach(input => {
+    input.addEventListener('focus', addEventChangeText);
+});
+document.querySelectorAll('[placeholder="Сумма"]').forEach(input => {
+    input.addEventListener('focus', addEventChangeNumber);
+});
