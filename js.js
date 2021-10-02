@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener('DOMContentLoaded', () => {
     'use strict';
     //timer
     function countTimer(deadLine) {
@@ -14,32 +14,26 @@ document.addEventListener('DOMContentLoaded', function () {
                 minutes = Math.floor((timeRemaining / 60) % 60),
                 hours = Math.floor(timeRemaining / 60 / 60);
             //let day = Math.floor(timeRemaining / 60 / 60 /24);
-            return {timeRemaining, hours, minutes, second};
+            return { timeRemaining, hours, minutes, second };
         }
 
         function updateClock() {
             const timer = getTimeRemaining();
-            timerHour.textContent = ('0' + timer.hours).slice(-2);
-            timerMinutes.textContent = ('0' + timer.minutes).slice(-2);
-            timerSeconds.textContent = ('0' + timer.second).slice(-2);
-
+            if (timer.timeRemaining > 0){
+                setInterval(updateClock, 1000);
+                timerHour.textContent = ('0' + timer.hours).slice(-2);
+                timerMinutes.textContent = ('0' + timer.minutes).slice(-2);
+                timerSeconds.textContent = ('0' + timer.second).slice(-2);
+            } else {
+                timerHour.textContent = '00';
+                timerMinutes.textContent = '00';
+                timerSeconds.textContent = '00';
+            }
         }
-
-        const timer = getTimeRemaining();
-        if (timer.timeRemaining > 0) {
-            setInterval(updateClock, 1000);
-        } else {
-            timerHour.textContent = '00';
-            timerMinutes.textContent = '00';
-            timerSeconds.textContent = '00';
-        }
-
         updateClock();
 
     }
 
-    countTimer('01 October 2021');
-
-
-
+    countTimer('01 october 2021');
+    
 });
