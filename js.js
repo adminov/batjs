@@ -56,11 +56,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const togglePopup = () => {
         const popup = document.querySelector('.popup'),
             popupBtn = document.querySelectorAll('.popup-btn'),
-            popupClose = document.querySelector('.popup-close'),
             popupContent = document.querySelector('.popup-content'),
             popupData = {
                 count: 150,
-                speed: 3,
+                speed: 10,
                 start: 150,
                 end: 0
             };
@@ -83,6 +82,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 popup.style.display = 'block';
                 if (screen.width > 768) {
                     popupData.count = popupData.start;
+                    popupContent.style.display = '';
                     requestAnimationFrame(showPopup);
                 }
             });
@@ -251,6 +251,108 @@ document.addEventListener('DOMContentLoaded', () => {
 
         startSlide();
     };
-
     slider();
+
+    //Наша команда фото
+    const ourTeam = () => {
+        const commandPhoto = document.querySelectorAll('.container')[7];
+        const img = commandPhoto.querySelectorAll('img');
+
+        const changingPhotos = (event) => {
+            const target = event.target;
+            if (target.classList.contains('command__photo')) {
+                const lastSrc = target.src;
+
+                target.src = target.dataset.img;
+                target.dataset.img = lastSrc;
+            }
+        };
+
+        img.forEach((item) => {
+            item.addEventListener('mouseover', changingPhotos);
+            item.addEventListener('mouseout', changingPhotos);
+        })
+    };
+    ourTeam();
+
+    //проверка на цифр в блоке калькулятор
+    const checkCalcBlock = () => {
+        const calcBlock = document.querySelector('.calc-block');
+        const input = calcBlock.querySelectorAll('input');
+
+        input.forEach((item) => {
+            item.addEventListener('blur', (event) => {
+               if (event.target.type === 'text') {
+                   event.target.value = event.target.value.replace(/\D/g, '');
+               }
+            });
+        });
+    };
+
+    checkCalcBlock();
+
+    //калькулятор
+    const calc = (price = 100) => {
+        const calcBlock = document.querySelector('.calc-block'),
+            calcType = document.querySelector('.calc-type'),
+            calcSquare = document.querySelector('.calc-square'),
+            calcDay = document.querySelector('.calc-day'),
+            calcCount = document.querySelector('.calc-count'),
+            totalValue = document.getElementById('total');
+
+        let total = 0;
+        let timeout;
+
+        const countSum = () => {
+            let countValue = 1,
+                dayValue = 1;
+
+            const typeValue = calcType.value,
+                squareValue = +calcSquare.value;
+
+            if (calcCount.value > 1) {
+                countValue += (calcCount.value - 1) / 10;
+            }
+            if (calcDay.value && calcDay.value < 5) {
+                dayValue *= 2;
+            } else if (calcDay.value && calcDay.value < 10) {
+                dayValue *= 1.5;
+            }
+            if (typeValue && squareValue) {
+                total = price * typeValue * squareValue * countValue * dayValue;
+            }
+            total = Math.floor(total);
+        };
+
+        const animateTotal = () => {
+            const target = total;
+            const count = +totalValue.textContent;
+            const speed = 200;
+
+            const inc = target / speed;
+
+            if (count < target) {
+                totalValue.textContent = Math.floor(count + inc);
+                timeout = setTimeout(animateTotal, 5);
+            } else {
+                totalValue.textContent = target;
+                clearTimeout(timeout);
+            }
+        };
+
+        calcBlock.addEventListener('change', (event) => {
+            const target = event.target;
+            if (target.matches('select') || target.matches('input')) {
+                countSum();
+                animateTotal();
+            }
+        });
+
+        calcType.addEventListener('change', () => {
+            total = 0;
+        });
+
+    };
+    calc();
+
 });
