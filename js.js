@@ -424,20 +424,22 @@ document.addEventListener('DOMContentLoaded', () => {
                     statusMessage.insertBefore(img, statusMessage.firstChild);
 
                     form.appendChild(statusMessage);
-                    postData(body, () => {
-                        statusMessage.textContent = successMessage;
-                        img.src = successImg;
-                        statusMessage.insertBefore(img, statusMessage.firstChild);
-                        clearInput(idForm);
-                        removeDivSuccessError();
-                    }, (error) => {
-                        statusMessage.textContent = errorMessage;
-                        img.src = errorImg;
-                        statusMessage.insertBefore(img, statusMessage.firstChild);
-                        clearInput(idForm);
-                        removeDivSuccessError();
-                        console.error(error)
-                    });
+                    postData(body)
+                        .then(() => {
+                            statusMessage.textContent = successMessage;
+                            img.src = successImg;
+                            statusMessage.insertBefore(img, statusMessage.firstChild);
+                            clearInput(idForm);
+                            removeDivSuccessError();
+                        })
+                        .catch((error) => {
+                            statusMessage.textContent = errorMessage;
+                            img.src = errorImg;
+                            statusMessage.insertBefore(img, statusMessage.firstChild);
+                            clearInput(idForm);
+                            removeDivSuccessError();
+                            console.error(error)
+                        });
                 }
             });
             form.addEventListener('input', isValid);
@@ -447,20 +449,22 @@ document.addEventListener('DOMContentLoaded', () => {
         processingForm('form2');
         processingForm('form3');
 
-        const postData = (body, outputData, errorData) => {
-            const request = new XMLHttpRequest();
-            request.addEventListener("readystatechange", () => {
-                if (request.readyState !== 4) return;
-                if (request.status === 200) {
-                    outputData();
-                } else {
-                    errorData(request.status);
-                }
-            });
+        const postData = (body) => {
+            return new Promise((resolve, reject) => {
+                const request = new XMLHttpRequest();
+                request.addEventListener("readystatechange", () => {
+                    if (request.readyState !== 4) return;
+                    if (request.status === 200) {
+                        resolve();
+                    } else {
+                        reject(request.status);
+                    }
+                });
 
-            request.open('POST', './server.php');
-            request.setRequestHeader('Content-Type', 'application/json');
-            request.send(JSON.stringify(body));
+                request.open('POST', './server.php');
+                request.setRequestHeader('Content-Type', 'application/json');
+                request.send(JSON.stringify(body));
+            });
         };
     };
 
