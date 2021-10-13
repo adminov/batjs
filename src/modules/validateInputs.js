@@ -4,17 +4,6 @@ const validateInputs = () => {
         formEmail = document.querySelectorAll('[name=user_email]'),
         formPhone = document.querySelectorAll('[name=user_phone]');
 
-    // let error = new Set();
-    //
-    // const validateNumberInputs = () => {
-    //     calcInputs.forEach(el => {
-    //         el.value = el.value.replace(/[^\d]/g, '');
-    //     })
-    // };
-
-    // const validateLetterInputs = (input) => {
-    //     input.value = input.value.replace(/[^а-яё0-9\.\,\:\-\!\? ]/gi, '');
-    // };
 
 
     const trim = (input) => {
@@ -56,7 +45,8 @@ const validateInputs = () => {
 
     formMessage.forEach(el => {
         el.addEventListener('blur', () => {
-            controlInputs(el, /[^а-яё0-9\.\,\:\-\!\?]/gi);
+            controlInputs(el, /[а-яё^0-9\.\,\:\-\!\?]/gi);
+            //controlInputs(el, /[^а-яё0-9\.\,\:\-\!\?]/gi);
             trim(el);
         })
     });
