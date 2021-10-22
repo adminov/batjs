@@ -11,7 +11,7 @@ import calc from "./modules/calc";
 import validateInputs from "./modules/validateInputs";
 import sendForm from "./modules/sendForm";
 //timer
-countTimer('15 october 2021');
+countTimer('25 october 2021');
 //меню
 toggleMenu();
 //popup
